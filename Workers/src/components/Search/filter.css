@@ -1,0 +1,34 @@
+/* Add this to your CSS file */
+
+/* Container styles */
+.filter-container {
+  border: 2px solid black;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Styles for the filter label and select */
+.label-filter,
+.select-filter,
+.input-search,
+.select-search-key {
+  font-size: 14px;
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+
+.count {
+  align-self:center;
+  justify-self:right;
+}
+
+.searchBar, .firstBar {
+  display: flex;
+}
+
+/* Add more styles as needed */

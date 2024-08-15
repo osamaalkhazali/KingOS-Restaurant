@@ -1,0 +1,43 @@
+
+.table {
+  border-radius: 15px; /* Rounded corners for the table */
+  background-color: #fff; /* White background for the table */
+}
+
+.table thead th:first-child{
+  border-top-left-radius: 15px; /* Remove top border for a cleaner look */
+}
+
+.table thead th:last-child{
+  border-top-right-radius: 15px; /* Remove top border for a cleaner look */
+}
+
+.table tbody tr:last-child th:first-child{
+  border-bottom-left-radius:  15px; /* Remove top border for a cleaner look */
+}
+
+.table tbody tr:last-child td:last-child{
+  border-bottom-right-radius:  15px; /* Remove top border for a cleaner look */
+}
+
+
+.table th, .table td {
+  border-top: none; /* Remove top border for a cleaner look */
+  border-bottom: none; /* Remove top border for a cleaner look */
+}
+
+
+
+.table th {
+  background-color: #4b2e94; /* Blue header background */
+  color: #fff; /* White text color */
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f2f9fd; /* Light blue background for striped rows */
+}
+
+.table-hover tbody tr:hover {
+  background-color: #d4eafd; /* Lighter blue background on hover */
+}
+
