@@ -2,3 +2,179 @@
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../utils/img/contact-page-img.jpg);
   height: 15vh;
 }
+
+.scrollspy-example {
+  max-height: 400px;  /* Or adjust to your needs */
+  overflow-y: scroll; /* Enable vertical scroll */
+}
+
+.orderOrder {
+  display: flex;
+  justify-content: space-between;
+}
+
+.orderMenu {
+  width: 47.5%;
+}
+
+.nav-item .active {
+  background-color: #6e1d00 !important;
+  border-radius: 15px;
+}
+
+/* Navbar styling */
+.bg-food-primary {
+  background-color: #873c21; /* Coral */
+  color: white;
+  border-radius: 20px;
+}
+
+.food-nav-link {
+  color: #fff;
+  padding: 10px 15px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: background-color 0.3s;
+}
+
+.food-nav-link:hover {
+  background-color: #6e1d00; /* Orange Red */
+  color: #fff;
+}
+
+/* Card styling */
+.food-card {
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.food-card:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s;
+}
+
+/* Section headings */
+.section-heading {
+  color: #FF6347; /* Tomato */
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Scrollspy container */
+.scrollspy-example {
+  max-height: 80vh;
+  overflow-y: auto;
+  background-color: #e8e8e8; /* Cornsilk */
+  padding: 20px;
+  border-radius: 15px;
+}
+
+/**/
+
+
+.add-to-cart-btn {
+  background-color: #ff7043;
+  border: none;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #e64a19;
+}
+
+.cart {
+  width: 47.5%;
+  margin-top: 30px;
+}
+.cart-container {
+  background-color: #e8e8e8 !important;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+}
+
+.cart-container h4 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  color: #ff5722;
+  margin-bottom: 20px;
+}
+
+.cart-container .food-card {
+  background-color: #c29500;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+
+
+.total-price {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  color: #ff7043;
+  margin-top: 20px;
+}
+
+.place-order-btn {
+  background-color: #ff7043;
+  border: none;
+  color: #fff;
+  margin-top: 20px;
+}
+
+.place-order-btn:hover {
+  background-color: #e64a19;
+}
+
+.remove-btn {
+  background-color: #f44336;
+  border: none;
+  color: #fff;
+  margin-top: 25px;
+}
+
+.remove-btn:hover {
+  background-color: #d32f2f;
+}
+
+.quantity-input {
+  width: 50px;
+  padding: 5px;
+  margin-right: 10px;
+  text-align: center;
+  display: inline-block;
+  margin-top: 10px;
+
+}
+
+.remove-btn {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  font-size: 1rem;
+  display: inline-block;
+  text-align: center;
+  line-height: 1.5;
+  border-radius: 50%;
+}
+
+.food-card .card-body {
+  padding: 10px;
+}
+
+.food-card .card-title {
+  font-size: 1rem;
+}
+
+
+@media (max-width: 768px) {
+  .orderOrder {
+    flex-direction: column;
+  }
+  .orderMenu , .cart {
+    width: 100%;
+  }
+}

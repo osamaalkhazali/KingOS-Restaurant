@@ -1,15 +1,16 @@
 import express, { Request, Response } from 'express';
 import Controller from '../interfaces/controller.interface';
 import database  from '../database'; 
+import mysql, { ResultSetHeader } from 'mysql2/promise';
 import {validateManger , validateToken} from '../middlewares/authMiddleware'
 
 
 
 
 
-class menuController implements Controller {
+class orderController implements Controller {
 
-  public path = '/menu';
+  public path = '/order';
   public router = express();
   private menuQuery = `SELECT *
                       FROM (
@@ -30,18 +31,48 @@ class menuController implements Controller {
                           menu_items.id
                       ) AS menu_items`
                       
-  constructor() { 
+  constructor() {
     this.initializeRoutes();
     
   }
   
   private initializeRoutes() {
-    this.router.get(`${this.path}` , this.menuDetails);
-    this.router.get(`${this.path}/types`, this.types);
-    this.router.post(`${this.path}`, validateToken , validateManger , this.addItem);
+    this.router.post(`${this.path}` , this.addOrder)
+    // this.router.get(`${this.path}` , this.menuDetails);
+    // this.router.get(`${this.path}/types`, this.types);
+    // this.router.post(`${this.path}`, validateManger , this.addItem);
+  }
+  
+  private addOrder = async (req: Request, res: Response ) : Promise<Response | void> => { 
+    try {
+      let {cart , notes , totalPrice , customerName , tableNumber} = req.body
+      console.log (cart[0].id ,)
+      
+      // add to orders table 
+      // const addOrder = `INSERT INTO restaurantdatabase.orders 
+      //                   (customer_name, notes, Total_Amount , Table_id , Confirmed_order ) 
+      //                   VALUES (?, ?, ?, ? , yse )`
+      // const [order] = await database.execute<ResultSetHeader>(addOrder, [customerName, notes, totalPrice, tableNumber]);
+      
+      // // add to order items table 
+      // const orderID : number = order.insertId
+      
+      // const addOrderItems = `INSERT INTO restaurantdatabase.order_items 
+      //                     (order_id , item_id, quantity, price  ) 
+      //                     VALUES (?, ?, ?, ? , yse )`
+      // await database.execute(addOrder, [customerName, notes, totalPrice, tableNumber]);
 
-    // this.router.delete(`${this.path}/:id`, this.bookDelete);
-    // this.router.put(`${this.path}/:id`, this.bookEdit);
+      
+      // res.json({ message: 'order created successfully' });
+      
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    
+    
+    
   }
   
   private menuDetails = async (req: Request, res: Response ) : Promise<Response | void> => {
@@ -111,9 +142,7 @@ class menuController implements Controller {
     }
   } 
   
- 
-  
   
 }
 
-export { menuController };
+export { orderController };

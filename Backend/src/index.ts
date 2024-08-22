@@ -16,15 +16,19 @@ import {validateManger, validateToken } from './middlewares/authMiddleware'
 import { authController } from './controllers/authController';
 import { menuController } from './controllers/menuController';
 import { tablesController } from './controllers/tablesController';
+import { orderController } from './controllers/orderController';
 const auth = new authController;
 const menu = new menuController
 const tables = new tablesController
+const order = new orderController
 
 
 app.use('/', auth.router)
-app.use('/', [validateToken])
 app.use('/', menu.router)
 app.use('/', tables.router)
+app.use('/', order.router)
+app.use('/', [validateToken])
+
 
 app.get('/', (req, res) => {
   res.send('KingOS Restaurant');
@@ -46,31 +50,3 @@ app.listen(4000, () => {
   console.log(`Server is running on port 4000`);
 });
 
-
-interface CounterFunction {
-  (): number; // Define the function signature
-  reset: () => void; // Define the reset method signature
-}
-
-function counter(): CounterFunction {
-  let c = 0;
-
-  // Define the counter function
-  let counter_Function: CounterFunction = <CounterFunction>function() {
-      return c++;
-  };
-
-  // Add the reset method to the function
-  counter_Function.reset = function() {
-      c = 0;
-  };
-
-  return counter_Function;
-}
-
-// Usage example
-let c = counter();
-console.log(c()); // Outputs: 0
-console.log(c()); // Outputs: 1
-c.reset();
-console.log(c()); // Outputs: 0

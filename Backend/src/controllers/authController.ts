@@ -140,7 +140,7 @@ class authController implements Controller {
       let [filterKeys] : any = await database.query(`${filterQuery}`); 
           filterKeys = filterKeys.map((key : any) => key.Position)
       // Results
-      const [workers] : any = await database.execute(searchQuery , [`%${searchField}%`, `%${filter}%`]);
+      const [workers] : any = await database.execute(paginationQuery , [`%${searchField}%`, `%${filter}%`]);
       
       res.status(200).json( { data: workers, totalPages , filterKeys} )
       

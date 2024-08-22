@@ -24,18 +24,20 @@ function Menu() {
             `http://localhost:4000/menu`
             
             axios.get(link)
-            .then(response => {; 
-            setBreakfast(response.data.filter(item => item.Food_Type === "BREAKFAST"))
-            setLunch(response.data.filter(item => item.Food_Type === "LUNCH"))
-            setDinner(response.data.filter(item => item.Food_Type === "DINNER"))
-            setDessert(response.data.filter(item => item.Food_Type === "DESSERT"))
+            .then(response => {
+            setBreakfast(response.data.data.filter(item => item.foodType === "BREAKFAST"))
+            setLunch(response.data.data.filter(item => item.foodType === "LUNCH"))
+            setDinner(response.data.data.filter(item => item.foodType === "DINNER"))
+            setDessert(response.data.data.filter(item => item.foodType === "DESSERT"))
+        
             })
             .catch(error => {console.log(error)})
         };
         fetchAllUsers();
     }, [])
-    
 
+
+    
     return (
         <div className='menu-page'>
             <header className='mt-5'>
@@ -57,13 +59,13 @@ function Menu() {
                                     <Card className='border-0'>
                                         <CardBody>
                                             <CardTitle className='text-center fs-3'>
-                                                {breakfast.Name}
+                                                {breakfast.name}
                                             </CardTitle>
                                             <CardText className='text-center fs-5'>
-                                                {breakfast.Description}
+                                                {breakfast.description}
                                             </CardText>
                                             <CardText className='text-center fs-3 fw-bold text-success'>
-                                                {breakfast.Price}
+                                                {breakfast.price}
                                             </CardText>
                                         </CardBody>
                                     </Card>
@@ -84,13 +86,13 @@ function Menu() {
                                     <Card className='border-0 bg-dark text-light'>
                                         <CardBody>
                                             <CardTitle className='text-center fs-3'>
-                                                {lunch.Name}
+                                                {lunch.name}
                                             </CardTitle>
                                             <CardText className='text-center fs-5'>
-                                                {lunch.Description}
+                                                {lunch.description}
                                             </CardText>
                                             <CardText className='text-center fs-3 fw-bold text-success'>
-                                                {lunch.Price}
+                                                {lunch.price}
                                             </CardText>
                                         </CardBody>
                                     </Card>
@@ -117,13 +119,13 @@ function Menu() {
                                     <Card className='border-0'>
                                         <CardBody>
                                             <CardTitle className='text-center fs-3'>
-                                                {dinner.Name}
+                                                {dinner.name}
                                             </CardTitle>
                                             <CardText className='text-center fs-5'>
-                                                {dinner.Description}
+                                                {dinner.description}
                                             </CardText>
                                             <CardText className='text-center fs-3 fw-bold text-success'>
-                                                {dinner.Price}
+                                                {dinner.price}
                                             </CardText>
                                         </CardBody>
                                     </Card>
@@ -144,13 +146,13 @@ function Menu() {
                                     <Card className='border-0 bg-dark text-light'>
                                         <CardBody>
                                             <CardTitle className='text-center fs-3'>
-                                                {dessert.Name}
+                                                {dessert.name}
                                             </CardTitle>
                                             <CardText className='text-center fs-5'>
-                                                {dessert.Description}
+                                                {dessert.description}
                                             </CardText>
                                             <CardText className='text-center fs-3 fw-bold text-success'>
-                                                {dessert.Price}
+                                                {dessert.price}
                                             </CardText>
                                         </CardBody>
                                     </Card>
