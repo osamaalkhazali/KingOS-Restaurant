@@ -1,13 +1,22 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
-
 import './Order.css';
 import { Card, Button, Form } from 'react-bootstrap';
 import  axios  from 'axios';
+import { ToastContainer, toast , Slide } from 'react-toastify';
+import { useNavigate} from 'react-router-dom'
+import 'react-toastify/dist/ReactToastify.css';
+import socket from "../servers/socket";
+
 
 
 function Order() {
+  
 
+
+  
+  const navigate = useNavigate()
+  
   const [breakfast, setBreakfast] = useState([])
   const [lunch, setLunch] = useState([])
   const [dinner, setDinner] = useState([])
@@ -66,19 +75,63 @@ function Order() {
 const handleSubmit = e => {
     e.preventDefault();
     setIsDisabled(true)
+      toast('In Progress!', {
+      position: "bottom-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Slide,
+      })
     const link = 
     `http://localhost:4000/order`
     axios.post(link , {cart , notes , totalPrice , customerName , tableNumber} )
     .then(response => {
-      console.log('Order placed successfully:', response.data);
+        socket.emit('newOrder', 'New Order' )
+        setTimeout(() => {
+        toast.success('Order Taken!', {
+          position: "bottom-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: 1,
+          theme: "dark",
+          transition: Slide,
+          })
+          setTimeout(() => {
+            navigate('/')
+          },1500)
+      }, 1500);
     })
-    .catch(error => {console.log(error)})
+    .catch(error => {
+      setTimeout(() => {
+        toast.error('Network Error!', {
+          position: "bottom-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: 1,
+          theme: "dark",
+          transition: Slide,
+          });
+          setIsDisabled(false)
+      }, 1500);
+      console.log(error)
+    })
 }
 
-console.log({cart , notes , totalPrice , customerName})
+
 
 
     return (
+      <>
         <div className='order-page'>
             <header className='mt-5'>
                 <div className='container h-100 d-flex align-items-center justify-content-center'>
@@ -190,12 +243,15 @@ console.log({cart , notes , totalPrice , customerName})
         <h4>Your Cart</h4>
         <Form.Group controlId="tableNumber">
           <Form.Label>Table Number</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter your table number"
+          <Form.Select
             value={tableNumber}
             onChange={(e) => setTableNumber(e.target.value)}
-          />
+          >
+            <option value="">Select a table number</option>
+            {[...Array(14).keys()].map(number => (
+              <option key={number} value={number}>{number}</option>
+            ))}
+          </Form.Select>
         </Form.Group>
 
         {cart.length === 0 ? (
@@ -249,49 +305,18 @@ console.log({cart , notes , totalPrice , customerName})
         <h5 className="total-price">Total Price: {totalPrice}$</h5>
         
         <Button disabled={isDisabled} variant="primary" onClick={handleSubmit} className="place-order-btn">Place Order</Button>
+        
       </div>
       
       </div> 
     
-</div>
-  
+    </div>
         </div>
-    )
+        <ToastContainer/>
+        </>
+  
+)
 }
 
 export default Order;
 
-
-
-
-
-
-
-
-
-
-
-
-
-            /* <Card style={{ width: '18rem' }}>
-              <Card.Img variant="top" src="https://framerusercontent.com/images/iP0BsyYh0IYgAchUCKTAQqclxyI.webp" />
-              <Card.Body>
-                <Card.Title>Delivery</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up the
-                  bulk of the card's content.
-                </Card.Text>
-                <Button variant="danger">Order</Button>
-                </Card.Body>
-            </Card> */
-            /* <Card style={{ width: '18rem' }}>
-              <Card.Img variant="top" src="https://cdn.ckitchen.com/img/blog/d4980721-0b56-496a-9f5f-0aace6150b69/631fc42a-6400-4a45-a7f9-5dc15057a9cf/restaurantdeliverysales-2308070y7hz6.webp" />
-              <Card.Body>
-                <Card.Title>In Restaurant</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up the
-                  bulk of the card's content.
-                </Card.Text>
-                <Button variant="danger">Order</Button>
-                </Card.Body>
-            </Card> */

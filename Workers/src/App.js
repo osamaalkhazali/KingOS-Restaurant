@@ -11,6 +11,7 @@ import Workers from './pages/Workers';
 import AddWorker from './pages/AddWorker';
 import EditWorker from './pages/EditWorker';
 import Tables from './pages/Tables';
+import Orders from './pages/orders';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
                         <Route path='/' element={'home'} />
                         <Route path='FoodMenu' element={<FoodMenu/>} />
                         <Route path='Tables' element={<Tables/>} />
+                        <Route path='Orders' element={<Orders/>} />
                     </Route>
                     {/*Mangers Routes */}
                     <Route element={<ProtectedRoute requiredPositions={["Manger" ]}/>}  > 

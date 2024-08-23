@@ -1,15 +1,25 @@
 import express from 'express';
 import bodyParser = require("body-parser");
-import morgan  from 'morgan'; import database from './database'
-database.connect
+import morgan  from 'morgan'; 
+import database from './database'
 import cors from 'cors';
+import { Server } from "socket.io";
+
+
+database.connect
 const app = express();
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(morgan('dev')); 
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001'] // Allow requests from this origin
+  origin: ['http://localhost:3000', 'http://localhost:3001'] // Allow requests from this hosts
 }));
+
+
+
+
+
+
 
 import {validateManger, validateToken } from './middlewares/authMiddleware'
 
@@ -46,7 +56,13 @@ app.get('/menu', async (req, res) => {
 }); 
 
 
-app.listen(4000, () => {
+const expressServer = app.listen(4000, () => {
   console.log(`Server is running on port 4000`);
 });
 
+// socket connection
+const io = new Server(expressServer , { 
+                                        cors : { origin : '*'}  
+                                      });
+                                      
+export {io}

@@ -3,6 +3,7 @@ import Controller from '../interfaces/controller.interface';
 import database  from '../database'; 
 import mysql, { ResultSetHeader } from 'mysql2/promise';
 import {validateManger , validateToken} from '../middlewares/authMiddleware'
+import {io} from '../index';
 
 
 
@@ -12,135 +13,107 @@ class orderController implements Controller {
 
   public path = '/order';
   public router = express();
-  private menuQuery = `SELECT *
-                      FROM (
-                        SELECT
-                        menu_items.id,
-                        menu_items.Name as name,
-                        menu_items.Description as description,
-                        menu_items.price,
-                        menu_items.Food_Type as foodType  ,
-                        menu_items.created_at as created,
-                        menu_items.updated_at as updated,
-                        menu_items.is_deleted
-                        FROM
-                          restaurantdatabase.menu_items
-                        WHERE
-                          menu_items.is_deleted = 0
-                        ORDER BY
-                          menu_items.id
-                      ) AS menu_items`
+  private ordersQuery = `SELECT 
+                        id , table_id , customer_name , notes , Total_Amount , 
+                        Confirmed_Order , Order_Date , Updated_At   
+                        FROM restaurantdatabase.orders
+                      AS orders `
                       
   constructor() {
     this.initializeRoutes();
-    
   }
   
   private initializeRoutes() {
-    this.router.post(`${this.path}` , this.addOrder)
-    // this.router.get(`${this.path}` , this.menuDetails);
-    // this.router.get(`${this.path}/types`, this.types);
-    // this.router.post(`${this.path}`, validateManger , this.addItem);
+    this.router.post(`${this.path}` , this.addOrder);
+    this.router.get(`${this.path}`, validateToken , this.ordersDetails);
+    
+    
   }
-  
+
   private addOrder = async (req: Request, res: Response ) : Promise<Response | void> => { 
     try {
       let {cart , notes , totalPrice , customerName , tableNumber} = req.body
-      console.log (cart[0].id ,)
-      
       // add to orders table 
-      // const addOrder = `INSERT INTO restaurantdatabase.orders 
-      //                   (customer_name, notes, Total_Amount , Table_id , Confirmed_order ) 
-      //                   VALUES (?, ?, ?, ? , yse )`
-      // const [order] = await database.execute<ResultSetHeader>(addOrder, [customerName, notes, totalPrice, tableNumber]);
-      
-      // // add to order items table 
-      // const orderID : number = order.insertId
-      
-      // const addOrderItems = `INSERT INTO restaurantdatabase.order_items 
-      //                     (order_id , item_id, quantity, price  ) 
-      //                     VALUES (?, ?, ?, ? , yse )`
-      // await database.execute(addOrder, [customerName, notes, totalPrice, tableNumber]);
-
-      
-      // res.json({ message: 'order created successfully' });
-      
+      const addOrder = `INSERT INTO restaurantdatabase.orders 
+                        (customer_name, notes, Total_Amount , Table_id , Confirmed_order ) 
+                        VALUES (?, ?, ?, ? , ? )`
+      const [order] = await database.execute<ResultSetHeader>(addOrder, [customerName, notes, totalPrice, tableNumber , 1]);
+      // add to order items table 
+      const orderID : number = order.insertId
+      const addOrderItemsQuery = `INSERT INTO restaurantdatabase.order_items 
+                                    (order_id, item_id, quantity, price) 
+                                    VALUES ${cart.map(() => '(?, ?, ?, ?)').join(', ')}`
+      const orderItemsValues = cart.flatMap((item: any) => [orderID, item.id, item.quantity, (item.price * item.quantity)]);
+      await database.execute(addOrderItemsQuery, orderItemsValues);
+      res.json({ message: 'order created successfully' });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
-
-    
-    
-    
   }
-  
-  private menuDetails = async (req: Request, res: Response ) : Promise<Response | void> => {
-    try {
-      
-      let { searchField = '', searchKey = 'name', filter = '', filterName = 'foodType', currentPage = '1', itemsPerPage = '100' } = req.query ;
-      
-      const offset: number = (Number(currentPage) - 1) * Number(itemsPerPage);
-      const limit: number = Number(itemsPerPage);
-      const searchQuery = `${this.menuQuery}         
+
+
+private ordersDetails = async (req: Request, res: Response ) : Promise<Response | void> => { 
+  try {
+    let { searchField = '', searchKey = 'created_at', filter = '', filterName = 'table_id', currentPage = '1', itemsPerPage = '5' } = req.query ;
+    const offset: number = (Number(currentPage) - 1) * Number(itemsPerPage);
+    const limit: number = Number(itemsPerPage);
+    const searchQuery = `${this.ordersQuery}         
                           WHERE ${searchKey} LIKE ?
-                          AND ${filterName} LIKE ?`  
-      const countQuery = `
-        SELECT COUNT(*) AS totalItems
-        FROM (${searchQuery}) AS countQuery;
-      `
-      const paginationQuery = `
-        ${searchQuery}
-        LIMIT ${limit} OFFSET ${offset};
-      `;
-      const filterQuery =`select distinct Food_Type from  restaurantdatabase.menu_items`
-      
-      // Pagination
-      const [countResults ] : any = await database.query(countQuery, [`%${searchField}%`, `%${filter}%`]);
-      const totalCount: number = countResults[0].totalItems;
-      const totalPages: number = Math.ceil(totalCount / Number(itemsPerPage));
-      // Filter
-      let [filterKeys] : any = await database.query(`${filterQuery}`); 
-          filterKeys = filterKeys.map((key : any) => key.Food_Type)
-      // Results
-      const [result] = await database.query(paginationQuery, [`%${searchField}%`, `%${filter}%`]);
-      
-      
-      res.json({ data: result, totalPages , filterKeys}); 
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
+                          AND ${filterName} LIKE ?` 
+    const countQuery = `
+                        SELECT COUNT(*) AS totalItems
+                        FROM (${searchQuery}) AS countQuery;`
+    const paginationQuery = `
+                            ${searchQuery}
+                            ORDER BY orders.id DESC
+                            LIMIT ${limit} OFFSET ${offset}  ;`
+    const filterQuery =`select distinct table_id from restaurantdatabase.orders`
+    // Pagination
+    const [countResults ] : any = await database.query(countQuery, [`%${searchField}%`, `%${filter}%`]);
+    const totalCount: number = countResults[0].totalItems;
+    const totalPages: number = Math.ceil(totalCount / Number(itemsPerPage));
+    // Filter
+    let [filterKeys] : any = await database.query(`${filterQuery}`); 
+        filterKeys = filterKeys.map((key : any) => key.table_id)
+    // Results
+    const [result] = await database.query<any[]>(paginationQuery, [`%${searchField}%`, `%${filter}%`]);
+    const ordersItemsQuery = `
+                              SELECT 
+                                  order_items.order_id,
+                                  menu_items.name, 
+                                  order_items.quantity, 
+                                  order_items.price 
+                              FROM 
+                                  order_items 
+                              LEFT JOIN 
+                                  menu_items 
+                              ON 
+                                  menu_items.id = order_items.item_id 
+                              WHERE 
+                                  order_items.order_id IN (${result.map(result => '?').join(', ')});
+                              `
+    const [ordersItems] = await database.query<any[]>(ordersItemsQuery , result.map(result => result.id) )
+    res.json({ data: result, totalPages , filterKeys , ordersItems });
+    
+    
+    io.on('connection', (socket) => {
+      const id = socket.id
+      console.log('New Customer : ' + id)
+      socket.on('newOrder', (data, callback) => {
+        console.log('Received newOrder:', data);
+        io.emit('reloadOrders', 'newOrder');
+        if (callback) {
+          callback('reloadOrders event sent');
+        }
+      });
+    })
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-  
-
-  
-  private addItem = async (req: Request, res: Response ) : Promise<Response | void> => {
-    try {
-
-      const { name, description, price, foodType } = req.body
-      await database.execute(
-        `INSERT INTO restaurantdatabase.menu_items 
-        (Name, Description, Price , Food_Type ) 
-        VALUES (?, ?, ?, ? )`,
-        [name, description, price, foodType]
-      );
-      res.json({ message: 'Item created successfully' });
-    } catch (error) {
-      console.error('Error creating post:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
   }
-  
-  private types = async (req: Request, res: Response ) : Promise<Response | void> => {
-    try {
-      const [types] = await database.execute('select distinct Food_Type from  restaurantdatabase.menu_items;');
-      return res.json(types);
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({ error: 'Internal Server Error' });
-    }
-  } 
   
   
 }
