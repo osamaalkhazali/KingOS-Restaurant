@@ -1,4 +1,4 @@
-
+/* Pagination Container */
 .pagination {
   display: flex;
   list-style: none;
@@ -8,32 +8,45 @@
   align-items: center;
 }
 
+/* Pagination Item */
 .pagination li {
-  margin-right: 5px;
+  margin-right: 8px; /* Increased space between items for clarity */
 }
 
+/* Pagination Links */
 .pagination a {
-  color: black;
+  color: #555555; /* Dark gray for a modern, soft look */
   text-decoration: none;
-  padding: 8px 12px;
-  border: 1px solid black;
-  border-radius: 4px;
+  padding: 10px 15px; /* Increased padding for a more clickable area */
+  border: 1px solid #ddd; /* Light gray border for a clean, unobtrusive look */
+  border-radius: 6px; /* Slightly rounded corners for a modern look */
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for interaction */
 }
 
+/* Hover State */
 .pagination a:hover {
-  background-color: black;
-  color: white !important;
+  background-color: #b96029; /* Primary blue color for hover state */
+  color: #ffffff !important; /* White text for contrast */
 }
 
+/* Active State */
 .pagination .active a {
-  background-color: black;
-  color: white !important;
+  background-color: #b96029; /* Darker blue for active state */
+  color: #ffffff !important; /* White text for contrast */
+  border-color: #b96029; /* Matching border color */
+  font-weight: bold; /* Bold text to emphasize active state */
 }
 
+/* Disabled State */
+.pagination .disabled a {
+  color: #cccccc; /* Light gray to indicate disabled state */
+  cursor: not-allowed;
+  border-color: #e0e0e0; /* Lighter border for disabled state */
+}
+
+/* Disabled Item Without Link */
 .pagination .disabled {
-  color: #ccc;
+  color: #cccccc; /* Ensure text color is consistent for disabled items */
   cursor: not-allowed;
 }
-

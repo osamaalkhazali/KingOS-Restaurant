@@ -23,6 +23,7 @@ function App() {
     <section className="dashboard">
         <TopBar/>
         <div className="dash-content">
+            <div className='container'>
         <div className="overview">
                 <Routes>
                     {/*Workers Routes */}
@@ -42,7 +43,8 @@ function App() {
                         <Route path='tables/:id' element={<EditTable/>} />
                     </Route>
                 </Routes>
-        </div>    
+        </div>  
+        </div>  
         </div>
     </section>
     <Footer/>

@@ -8,6 +8,7 @@ import { useNavigate} from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css';
 import socket from "../servers/socket";
 import { useParams } from 'react-router-dom';
+import TableCard from "../components/tableCard";
 
 
 function Order() {
@@ -155,8 +156,9 @@ const handleSubmit = e => {
                 <div className='container h-100 d-flex align-items-center justify-content-center'>
                     <h1 className='text-light'>Order Now</h1>
                 </div>
+                
             </header>
-
+          
 
             <div className='container my-5 orderOrder'>
               

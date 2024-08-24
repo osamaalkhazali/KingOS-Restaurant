@@ -97,65 +97,68 @@ export default function AdminNavBar() {
     return (
 
       <nav>
-        <div className="logo-name">
-            <div className="logo-image"><img src="https://cdn1.iconfinder.com/data/icons/hospital-wayfinding-icostory/64/button-administrative_department-administration-administrator-chief-512.png" alt=""/>
-            </div>
-            <span className="logo_name">KingOS Restaurant</span>
-        </div>
-
-        <div className="menu-items">
-      <ul className="nav-links">
-        <li>
-          <Link to="/">
-            <i className="uil uil-estate"></i>
-            <span className="link-name">Dashboard</span>
-          </Link>
-        </li>
-        <li>
-          <Link to="/FoodMenu">
-            <i className="uil uil-files-landscapes"></i>
-            <span className="link-name">Food Menu</span>
-          </Link>
-        </li>
-        <li>
-          <Link to="/Tables">
-            <i className="uil uil-chart"></i>
-            <span className="link-name">Tables</span>
-          </Link>
-        </li>
-        <li>
-          <Link to="/orders">
-            <i className="uil uil-thumbs-up"></i>
-            <span className="link-name">Orders</span>
-          </Link>
-        </li>
-        {mangersTables}
-      </ul>
-
-      <ul className="logout-mode">
-        <li>
-          {userOptions}
-        </li>
-        
-        <li>
-          <Link to="http://localhost:3001">
-            <i className="uil uil-signout"></i>
-            <span className="link-name">Main Site</span>
-          </Link>
-        </li>
-
-        <li className="mode">
-          <Link >
-            <i className="uil uil-moon"></i>
-            <span className="link-name">Dark Mode</span>
-          </Link>
-
-          <div className="mode-toggle">
-            <span className="switch"></span>
+      <div className="logo-name">
+          <div className="logo-image">
+              <img 
+                  src="https://th.bing.com/th/id/R.4d58c16caa2b65d8921c9581a82e5a9a?rik=pA%2bkhl6MPS9Ekg&riu=http%3a%2f%2fwww.clipartbest.com%2fcliparts%2faiq%2fLdb%2faiqLdbbqT.png&ehk=eFa9eWtbKwqbjCqwMSj0In1QzHpf1hAsCwIg3FCKuD4%3d&risl=&pid=ImgRaw&r=0" 
+                  alt="Logo"
+              />
           </div>
-        </li>
-      </ul>
-    </div>
-    </nav>
+          <span className="logo_name">KingOS Restaurant</span>
+      </div>
+  
+      <div className="menu-items">
+          <ul className="nav-links">
+              <li>
+                  <Link to="/" className="nav-link">
+                      <i className="uil uil-estate"></i>
+                      <span className="link-name">Dashboard</span>
+                  </Link>
+              </li>
+              <li>
+                  <Link to="/FoodMenu" className="nav-link">
+                      <i className="uil uil-files-landscapes"></i>
+                      <span className="link-name">Food Menu</span>
+                  </Link>
+              </li>
+              <li>
+                  <Link to="/Tables" className="nav-link">
+                      <i className="uil uil-chart"></i>
+                      <span className="link-name">Tables</span>
+                  </Link>
+              </li>
+              <li>
+                  <Link to="/orders" className="nav-link">
+                      <i className="uil uil-thumbs-up"></i>
+                      <span className="link-name">Orders</span>
+                  </Link>
+              </li>
+              {mangersTables}
+          </ul>
+  
+          <ul className="logout-mode">
+              <li>
+                  {userOptions}
+              </li>
+              <li>
+                  <a href="http://localhost:3001" className="nav-link">
+                      <i className="uil uil-signout"></i>
+                      <span className="link-name">Main Site</span>
+                  </a>
+              </li>
+              <li className="mode">
+                  <a href="#toggle" className="nav-link">
+                      <i className="uil uil-moon"></i>
+                      <span className="link-name">Dark Mode</span>
+                  </a>
+                  <div id="toggle" className="mode-toggle">
+                      <span className="switch"></span>
+                  </div>
+              </li>
+          </ul>
+      </div>
+  </nav>
+  
+    
     )
 }
