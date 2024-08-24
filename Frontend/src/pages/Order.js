@@ -7,15 +7,33 @@ import { ToastContainer, toast , Slide } from 'react-toastify';
 import { useNavigate} from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css';
 import socket from "../servers/socket";
-
+import { useParams } from 'react-router-dom';
 
 
 function Order() {
   
-
-
-  
+  const { id } = useParams();
   const navigate = useNavigate()
+  const [tablesCount, setTablesCount] = useState('')
+  
+  useEffect(() => {
+    const fetchTableCount = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/tables/count');
+        setTablesCount(response.data[0].count);
+
+        if (id > response.data[0].count) {
+          navigate('/order');
+        }
+      } catch (error) {
+        console.error('Error fetching table count:', error);
+      }
+    };
+
+    fetchTableCount();
+  }, [id, navigate]);
+  
+  
   
   const [breakfast, setBreakfast] = useState([])
   const [lunch, setLunch] = useState([])
@@ -27,7 +45,7 @@ function Order() {
   const [customerName, setCustomerName] = useState('Guest');
   const [notes, setNotes] = useState('');
   const [cart, setCart] = useState([]);
-  const [tableNumber, setTableNumber] = useState('0');
+  const [tableNumber, setTableNumber] = useState(id);
   
     const addToCart = (item) => {
       const existingItem = cart.find(cartItem => cartItem.id === item.id);
@@ -244,14 +262,15 @@ const handleSubmit = e => {
         <Form.Group controlId="tableNumber">
           <Form.Label>Table Number</Form.Label>
           <Form.Select
-            value={tableNumber}
-            onChange={(e) => setTableNumber(e.target.value)}
-          >
-            <option value="">Select a table number</option>
-            {[...Array(14).keys()].map(number => (
-              <option key={number} value={number}>{number}</option>
-            ))}
-          </Form.Select>
+          value={id}
+          onChange={(e) => setTableNumber(e.target.value)}
+          disabled={!!id} 
+        > 
+          <option value="">Select a table number</option>
+          {[...Array(tablesCount+1).keys()].map(number => (
+            <option key={number} value={number}>{number}</option>
+          ))}
+        </Form.Select>
         </Form.Group>
 
         {cart.length === 0 ? (

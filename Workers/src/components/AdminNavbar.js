@@ -124,7 +124,7 @@ export default function AdminNavBar() {
           </Link>
         </li>
         <li>
-          <Link to="/like">
+          <Link to="/orders">
             <i className="uil uil-thumbs-up"></i>
             <span className="link-name">Orders</span>
           </Link>

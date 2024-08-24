@@ -11,7 +11,9 @@ import Workers from './pages/Workers';
 import AddWorker from './pages/AddWorker';
 import EditWorker from './pages/EditWorker';
 import Tables from './pages/Tables';
+import AddTable from './pages/addTable';
 import Orders from './pages/orders';
+import EditTable from './pages/editTable';
 
 
 function App() {
@@ -36,6 +38,8 @@ function App() {
                         <Route path='workers' element={<Workers/>} />
                         <Route path='addWorker' element={<AddWorker/>} />
                         <Route path='workers/:id' element={<EditWorker/>} />
+                        <Route path='addTable' element={<AddTable/>} />
+                        <Route path='tables/:id' element={<EditTable/>} />
                     </Route>
                 </Routes>
         </div>    

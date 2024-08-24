@@ -14,23 +14,30 @@ function Tables() {
     const [searchKey , setSearchKey ] = useState('name')
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(5);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
     const [filter, setFilter] = useState('');
     const [filterName, setFilterName] = useState('foodType');
     const [filterKeys, setFilterKeys] = useState([]);
 
     
-    const headers  = ['#' , 'id' , 'Capacity' , 'Created' , 'Updated' , 'Action']
+    const headers  = ['#' , 'id' , 'Capacity' , 'QR', 'Created' , 'Updated' , 'Action']
     
     const menuContent = menuData.map(item => {
       return (
         <tr key={item.id}>
-          <th scope="row">{( ((currentPage -1) * itemsPerPage) + (menuData.indexOf(item) + 1) )}</th>
+          <th scope="row">{( ((currentPage -1) * itemsPerPage) + (menuData.indexOf(item) ) )}</th>
           <td> {item.id}</td>
           <td> {item.Capacity}</td>
+          <td> 
+            <img alt='Qr Code' 
+            src={item.QRcode || 'https://cdn-icons-png.flaticon.com/512/5247/5247756.png'} 
+            style={{ width: '150px' }} />
+          </td>
           <td>{moment(item.Created_At).format('YYYY-MM-DD HH:mm:ss')}</td>
           <td>{moment(item.Updated_At).format('YYYY-MM-DD HH:mm:ss')}</td>
-          
+          <td><Link  to={`/tables/${item.id}`}>
+          Edit
+          </Link></td>
         </tr>
     )})
     
@@ -76,7 +83,7 @@ function Tables() {
         </div>
       
       <div className='link'>
-      <Link  to={'/addFoodItem'}>   
+      <Link  to={'/addtable'}>   
       <div className="add">
           <i className="uil uil-plus"></i>
           <span className="text">Add Table</span>

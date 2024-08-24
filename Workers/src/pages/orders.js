@@ -63,11 +63,11 @@ function Orders() {
             filterName : filterName,
             currentPage : currentPage,
             itemsPerPage : itemsPerPage
-          }, 
+          },  
           headers : {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
           }
-        } )
+        } ) 
         .then(response => {;
           setOrdersData(response.data.data )
           setOrdersItemsData(response.data.ordersItems)
