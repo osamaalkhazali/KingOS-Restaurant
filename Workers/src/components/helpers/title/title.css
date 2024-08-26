@@ -3,7 +3,12 @@
   margin-bottom: 20px;
   border: 2px solid black; /* Border color */
   padding: 10px;
+  color: white;
   border-radius: 10px; /* Rounded corners */
+  background-color: #b96029;
+  img {
+    width: 250px; 
+  }
 }
 
 .custom-title h2 {

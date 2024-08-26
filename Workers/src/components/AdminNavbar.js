@@ -97,6 +97,7 @@ export default function AdminNavBar() {
     return (
 
       <nav>
+        <Link to="/" className="nav-link">
       <div className="logo-name">
           <div className="logo-image">
               <img 
@@ -106,15 +107,16 @@ export default function AdminNavBar() {
           </div>
           <span className="logo_name">KingOS Restaurant</span>
       </div>
+      </Link>
   
       <div className="menu-items">
           <ul className="nav-links">
-              <li>
+              {/* <li>
                   <Link to="/" className="nav-link">
                       <i className="uil uil-estate"></i>
                       <span className="link-name">Dashboard</span>
                   </Link>
-              </li>
+              </li> */}
               <li>
                   <Link to="/FoodMenu" className="nav-link">
                       <i className="uil uil-files-landscapes"></i>

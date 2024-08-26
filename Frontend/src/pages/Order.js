@@ -8,31 +8,32 @@ import { useNavigate} from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css';
 import socket from "../servers/socket";
 import { useParams } from 'react-router-dom';
-import TableCard from "../components/tableCard";
-
 
 function Order() {
   
-  const { id } = useParams();
+  const { tableID , link } = useParams();
+
   const navigate = useNavigate()
   const [tablesCount, setTablesCount] = useState('')
+
   
   useEffect(() => {
     const fetchTableCount = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/tables/count');
+        const response = await axios.get('http://localhost:4000/tables/count' , {
+          params: { tableID}});
         setTablesCount(response.data[0].count);
-
-        if (id > response.data[0].count) {
+          const linkCheck = response.data[0].link
+        if (tableID > response.data[0].count || linkCheck !== link ) {
           navigate('/order');
-        }
+        } 
       } catch (error) {
         console.error('Error fetching table count:', error);
       }
     };
 
     fetchTableCount();
-  }, [id, navigate]);
+  }, [tableID, navigate , link]);
   
   
   
@@ -46,7 +47,7 @@ function Order() {
   const [customerName, setCustomerName] = useState('Guest');
   const [notes, setNotes] = useState('');
   const [cart, setCart] = useState([]);
-  const [tableNumber, setTableNumber] = useState(id);
+  const [tableNumber, setTableNumber] = useState(tableID);
   
     const addToCart = (item) => {
       const existingItem = cart.find(cartItem => cartItem.id === item.id);
@@ -159,8 +160,12 @@ const handleSubmit = e => {
                 
             </header>
           
+            
+                
 
             <div className='container my-5 orderOrder'>
+              
+              
               
                 <div className="orderMenu">
                 
@@ -264,9 +269,9 @@ const handleSubmit = e => {
         <Form.Group controlId="tableNumber">
           <Form.Label>Table Number</Form.Label>
           <Form.Select
-          value={id}
+          value={tableID}
           onChange={(e) => setTableNumber(e.target.value)}
-          disabled={!!id} 
+          disabled={!!tableID} 
         > 
           <option value="">Select a table number</option>
           {[...Array(tablesCount+1).keys()].map(number => (

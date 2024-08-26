@@ -4,6 +4,9 @@ import database  from '../database';
 import mysql, { ResultSetHeader } from 'mysql2/promise';
 import {validateManger , validateToken} from '../middlewares/authMiddleware'
 import * as QRCode from 'qrcode';
+import { v4 as uuidv4 } from 'uuid';
+
+
 
 const generateQRCodeDataURL = async (text: string): Promise<string | null> => {
   try {
@@ -44,6 +47,7 @@ class tablesController implements Controller {
   
   private initializeRoutes() {
     this.router.get(`${this.path}/count` , this.tablesCount);
+    this.router.get(`${this.path}/order` , this.tables);
     this.router.get(`${this.path}`, validateToken, this.tablesDetails);
     this.router.post(`${this.path}`, validateToken , validateManger , this.addTable);
     this.router.put(`${this.path}/:id`, validateToken , validateManger , this.editTable);
@@ -51,10 +55,25 @@ class tablesController implements Controller {
   
   private tablesCount = async (req: Request, res: Response ) : Promise<Response | void> => {
     try {
-      
-      const query = 'SELECT count(*) as count FROM restaurantdatabase.tables'
-      const [tablesCount] = await database.query(query);
+      console.log(req.query)
+      let {tableID} = req.query
+      const query = `SELECT 
+                      (SELECT COUNT(*) FROM restaurantdatabase.tables) AS count,
+                      (SELECT Link FROM restaurantdatabase.tables WHERE id = ?) AS link`
+      const [tablesCount] = await database.query(query , [tableID] );
       res.json(tablesCount); 
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  } 
+  
+  private tables = async (req: Request, res: Response ) : Promise<Response | void> => {
+    try {
+      
+      const query = 'SELECT *  FROM restaurantdatabase.tables'
+      const [tables] = await database.query(query);
+      res.json(tables); 
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -126,12 +145,13 @@ class tablesController implements Controller {
       const table_id = req.params.id;
       
       const { capacity } = req.body
-      const orderTableLink = `http://localhost:3000/Order/table/${table_id}`
+      const uui = uuidv4()
+      const orderTableLink = `http://localhost:3000/Order/table/${table_id}/${uui}`
       const tableQrCode = await generateQRCodeDataURL(orderTableLink);
       await database.execute(
         `Update restaurantdatabase.tables 
-        SET capacity = ? , QRcode = ?  Where id = ?`,
-        [capacity , tableQrCode , table_id]
+        SET capacity = ? , QRcode = ? , Link = ?  Where id = ?`,
+        [capacity , tableQrCode ,uui , table_id]
       );
       
       res.json({ message: 'Table Updated successfully' });

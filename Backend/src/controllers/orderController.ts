@@ -4,8 +4,19 @@ import database  from '../database';
 import mysql, { ResultSetHeader } from 'mysql2/promise';
 import {validateManger , validateToken} from '../middlewares/authMiddleware'
 import {io} from '../index';
+import { v4 as uuidv4 } from 'uuid';
+import * as QRCode from 'qrcode';
 
 
+const generateQRCodeDataURL = async (text: string): Promise<string | null> => {
+  try {
+      const url = await QRCode.toDataURL(text);
+      return url;
+  } catch (err) {
+      console.error('Error generating QR code data URL:', err);
+      return null;
+  }
+};
 
 
 
@@ -30,6 +41,7 @@ class orderController implements Controller {
     
   }
 
+
   private addOrder = async (req: Request, res: Response ) : Promise<Response | void> => { 
     try {
       let {cart , notes , totalPrice , customerName , tableNumber} = req.body
@@ -45,6 +57,17 @@ class orderController implements Controller {
                                     VALUES ${cart.map(() => '(?, ?, ?, ?)').join(', ')}`
       const orderItemsValues = cart.flatMap((item: any) => [orderID, item.id, item.quantity, (item.price * item.quantity)]);
       await database.execute(addOrderItemsQuery, orderItemsValues);
+      
+      // edit table link
+      const uui = uuidv4()
+      const orderTableLink = `http://localhost:3000/Order/table/${tableNumber}/${uui}`
+      const tableQrCode = await generateQRCodeDataURL(orderTableLink);
+      await database.execute(
+        `Update restaurantdatabase.tables 
+        SET  QRcode = ? , Link = ?  Where id = ?`,
+        [ tableQrCode ,uui , tableNumber]
+      );
+
       res.json({ message: 'order created successfully' });
     } catch (error) {
       console.error(error);

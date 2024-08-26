@@ -95,10 +95,10 @@ function Orders() {
         </div>
       
       <div className='link'>
-      <Link  to={'/addFoodItem'}>   
+      <Link  to={'http://localhost:3000/Order/'}>   
       <div className="add">
           <i className="uil uil-plus"></i>
-          <span className="text">Add Item</span>
+          <span className="text">Add Order</span>
       </div>
       </Link> 
       </div>

@@ -28,7 +28,7 @@ function App() {
                 <Routes>
                     {/*Workers Routes */}
                     <Route element={<ProtectedRoute requiredPositions={["Manger" , "Worker"]}/>}  > 
-                        <Route path='/' element={'home'} />
+                        <Route path='/' element={<Orders/>} />
                         <Route path='FoodMenu' element={<FoodMenu/>} />
                         <Route path='Tables' element={<Tables/>} />
                         <Route path='Orders' element={<Orders/>} />

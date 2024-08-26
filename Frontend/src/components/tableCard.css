@@ -1,0 +1,57 @@
+/* TableCard.css */
+
+.table-card {
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #a34c002e; /* Light background color for contrast */
+  border: 1px solid #e0e0e0; /* Light border for a subtle definition */
+  transition: box-shadow 0.3s ease; /* Smooth shadow transition */
+  margin: 20px ;
+}
+
+.table-card:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+.table-card .card-body {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #ffffff6c 50%, #f1f1f113 100%); /* Subtle gradient background */
+}
+
+.table-card .card-title {
+  color: #333; /* Dark text color for readability */
+  font-size: 1.5rem; /* Larger font size for the title */
+  font-weight: bold;
+  margin-bottom: 1rem; /* Space below the title */
+}
+
+.table-card .card-text {
+  color: #555; /* Slightly lighter text color for contrast */
+  font-size: 1rem; /* Font size for capacity text */
+  margin-bottom: 1.5rem; /* Space below the text */
+}
+
+.table-card .qr-image {
+  width: 120px; /* Larger QR code image */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* More pronounced shadow for the QR code */
+  transition: transform 0.3s ease; /* Smooth scale transition */
+}
+
+.table-card .qr-image:hover {
+  transform: scale(1.05); /* Slightly enlarge QR code on hover */
+}
+
+.table-card .btn-primary {
+  background-color: #ff6f00; /* Orange background color */
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Shadow for button */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+  color: #fff; /* White text color */
+  font-size: 1rem; /* Font size for the button text */
+}
+
+.table-card .btn-primary:hover {
+  background-color: #e65100; /* Darker orange on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}

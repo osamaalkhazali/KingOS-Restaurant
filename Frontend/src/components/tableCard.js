@@ -1,18 +1,32 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { useNavigate  } from 'react-router-dom';
+import './tableCard.css'
 
-function TableCard({tableNumber, tableCapacity,tableOrderLink}) {
+function TableCard({tableNumber, tableCapacity,tableOrderLink , tableQR}) {
+  const navigate = useNavigate ()
   return (
-    <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAYAAAB1PADUAAAAAklEQVR4AewaftIAAAS8SURBVO3BQY4cSRIEQdNA/f/Lun30UwCJ9GqSsyaCP1K15KRq0UnVopOqRSdVi06qFp1ULTqpWnRSteikatFJ1aKTqkUnVYtOqhadVC06qVr0yUtAfpOaCcgTat4A8oaaCcikZgLym9S8cVK16KRq0UnVok+WqdkE5E8CcqPmBsiNmifUbAKy6aRq0UnVopOqRZ98GZAn1DyhZgIyqXkCyG8CMql5AsgTar7ppGrRSdWik6pFn/zjgNwAuVEzqXkDyKRmAjKp+S85qVp0UrXopGrRJ/84NROQGzUTkBs1bwC5ATKp+ZedVC06qVp0UrXoky9T8yepmYDcqJmATGqeUDMBmdS8oeZvclK16KRq0UnVok+WAflNQCY1E5BJzQTkDSCTmgnIpGYCMqm5AfI3O6ladFK16KRq0ScvqfmbAHlCzQTkCTUTkEnNG2r+JSdVi06qFp1ULfrkJSCTmgnIjZoJyBNqboDcAPkmIG8AmdTcAJnUTEBu1LxxUrXopGrRSdUi/JFFQCY1E5BJzSYgk5oJyKTmm4DcqJmAvKHmCSCTmjdOqhadVC06qVr0yUtANgG5UTMBmdRMQCY1TwCZ1ExAnlAzAZnUTEBu1NwAuVGz6aRq0UnVopOqRfgjfxCQGzU3QCY1N0A2qXkCyKTmBsgbam6ATGreOKladFK16KRqEf7IFwG5UXMDZFJzA+RGzTcBmdTcAJnUvAHkRs03nVQtOqladFK16JNlQCY1TwCZ1ExAJjU3ap4AMqmZgExqngDyBJBJzY2aGyA3at44qVp0UrXopGoR/sgLQCY1N0D+JDVPAJnUPAHkRs0EZFIzAZnUTEDeUPPGSdWik6pFJ1WL8Ee+CMik5g0gk5obIG+omYDcqNkEZFIzAZnU3ACZ1Gw6qVp0UrXopGrRJ8uATGreAHIDZFIzqdmk5gkgk5obIJOaCcjf7KRq0UnVopOqRZ/8MiBPqHkDyI2aCcikZgIyqfmT1NwA+U0nVYtOqhadVC365CUgk5oJyKTmCSCTmhsgN2pu1LwB5Akgm4DcqPmmk6pFJ1WLTqoW4Y98EZAbNROQSc0E5Ak1N0AmNU8AuVEzAdmk5gbIpOabTqoWnVQtOqla9MkyIDdqJiA3QG7UTEAmIE8AmdRMQP4mQP4mJ1WLTqoWnVQtwh/5hwGZ1ExAJjUTkCfUTEA2qXkCyCY1b5xULTqpWnRSteiTl4D8JjVPqJmATGomIJOaGzU3QN4AMql5Qs0EZFKz6aRq0UnVopOqRZ8sU7MJyBtAJjU3am6A3KjZpOYJNX/SSdWik6pFJ1WLPvkyIE+oeULNBGRScwNkUjMBuVEzAZnU3ACZgGwC8ptOqhadVC06qVr0yT8OyKRmAnKjZgLyBJAbIJOaSc0EZFIzAbkBMqm5ATKpeeOkatFJ1aKTqkWf/J9R84aaJ4BMQDapmYD8SSdVi06qFp1ULfrky9R8k5obNTdAbtRMQCY1m9R8E5BJzaaTqkUnVYtOqhZ9sgzIbwJyo2aTmjfUTECeUDMBmdT8SSdVi06qFp1ULcIfqVpyUrXopGrRSdWik6pFJ1WLTqoWnVQtOqladFK16KRq0UnVopOqRSdVi06qFp1ULfofw08gRnqhNf4AAAAASUVORK5CYII=" />
-      <Card.Body>
-        <Card.Title>Table {tableNumber}</Card.Title>
-        <Card.Text>
-          This table have {tableCapacity} seats
-        </Card.Text>
-        <Button onClick={tableOrderLink} variant="primary">Order on this Table</Button>
-      </Card.Body>
-    </Card>
+    <Card className="table-card shadow-sm border-0">
+            <Card.Body className="p-4">
+                <Card.Title className="text-center fs-4 fw-bold">Table {tableNumber}</Card.Title>
+                <Card.Text className="text-center mb-4">Capacity: {tableCapacity}</Card.Text>
+                {tableQR && (
+                    <div className="text-center">
+                        <img src={tableQR  || 'https://cdn-icons-png.flaticon.com/512/5247/5247756.png' } alt="QR Code" className="qr-image" />
+                    </div>
+                )}
+                <div className="text-center">
+                  <br/>
+                    <Button 
+                        onClick={() => navigate(tableOrderLink)} 
+                        variant="primary"
+                        className="w-100 rounded-pill py-2"
+                    >
+                        Order Now
+                    </Button>
+                </div>
+            </Card.Body>
+        </Card>
   );
 }
 
