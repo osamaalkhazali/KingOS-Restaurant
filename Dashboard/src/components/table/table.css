@@ -1,0 +1,64 @@
+.table {
+  border-radius: 12px; /* Slightly increased rounding for a softer modern look */
+  background-color: #ffffff; /* White background for the table */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Slightly deeper shadow for depth */
+  overflow: hidden; /* Ensure rounded corners apply to the whole table */
+  border-collapse: separate;
+  width: 100%; /* Full width for better responsiveness */
+  margin: 20px 0; /* Add some space around the table */
+}
+
+.table thead th:first-child {
+  border-top-left-radius: 12px; /* Smooth corner on the top-left */
+}
+
+.table thead th:last-child {
+  border-top-right-radius: 12px; /* Smooth corner on the top-right */
+}
+
+.table tbody tr:last-child th:first-child {
+  border-bottom-left-radius: 12px; /* Smooth corner on the bottom-left */
+}
+
+.table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px; /* Smooth corner on the bottom-right */
+}
+
+.table th, .table td {
+  border-top: none; /* No top border for a clean look */
+  border-bottom: 1px solid #e0e0e0; /* Light bottom border for structure */
+  padding: 14px 20px; /* Slightly increased padding for more spacious feel */
+  text-align: center; /* Left-align text for readability */
+  font-size: 14px; /* Adjust font size for better readability */
+  color: #333333; /* Dark gray text for better contrast */
+}
+
+.table th, .table td:first-child {
+  background-color: #333333; /* Darker header for contrast */
+  color: #ffffff; /* White text for better readability */
+  font-weight: 700; /* Bolder text to distinguish header */
+  text-transform: uppercase; /* Uppercase text for header distinction */
+  letter-spacing: 0.05em; /* Slight letter spacing for a modern touch */
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f7f8fa; /* Light grey for striped rows */
+}
+
+.table-hover tbody tr:hover {
+  background-color: #e6e9ed; /* Slightly darker grey on hover for a subtle effect */
+}
+
+.table tbody tr {
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition on hover */
+}
+
+.table td a {
+  color: #007bff; /* Blue color for links */
+  text-decoration: none; /* No underline for links */
+  transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+.table td a:hover {
+  color: #0056b3; /* Darker blue on hover */
+}
