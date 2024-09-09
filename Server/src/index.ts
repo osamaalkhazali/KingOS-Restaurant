@@ -26,16 +26,19 @@ import { authController } from './controllers/authController';
 import { menuController } from './controllers/menuController';
 import { tablesController } from './controllers/tablesController';
 import { orderController } from './controllers/orderController';
+import { chartsController } from './controllers/chartsController';
 const auth = new authController;
 const menu = new menuController
 const tables = new tablesController
 const order = new orderController
+const charts = new chartsController
 
 
 app.use('/', auth.router)
 app.use('/', menu.router)
 app.use('/', tables.router)
 app.use('/', order.router)
+app.use('/', charts.router)
 app.use('/', [validateToken])
 
 

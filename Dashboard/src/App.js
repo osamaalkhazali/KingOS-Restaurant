@@ -14,6 +14,7 @@ import Tables from './pages/Tables';
 import AddTable from './pages/addTable';
 import Orders from './pages/orders';
 import EditTable from './pages/editTable';
+import Dashboard from './pages/Dashboard';
 
 
 function App() {
@@ -23,12 +24,12 @@ function App() {
     <section className="dashboard">
         <TopBar/>
         <div className="dash-content">
-            <div className='container'>
+        <div className='container'>
         <div className="overview">
                 <Routes>
                     {/*Workers Routes */}
                     <Route element={<ProtectedRoute requiredPositions={["Manger" , "Worker"]}/>}  > 
-                        <Route path='/' element={<Orders/>} />
+                        <Route path='/' element={<Dashboard/>} />
                         <Route path='FoodMenu' element={<FoodMenu/>} />
                         <Route path='Tables' element={<Tables/>} />
                         <Route path='Orders' element={<Orders/>} />

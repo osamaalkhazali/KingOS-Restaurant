@@ -39,32 +39,24 @@ function Workers() {
     
 
     const tableContent = workersData.map(worker => {
+          const rowNum = ( ((currentPage -1) * itemsPerPage) + (workersData.indexOf(worker) + 1) )
+          const workerStatus = worker.status === "1" ? <b className='text-danger'>Inactive</b> : <b className='text-success'>Active</b>
+          const createdFormat = moment(worker.Created_At).format('YYYY-MM-DD HH:mm:ss')
+          const updatedFormat = moment(worker.Updated_At).format('YYYY-MM-DD HH:mm:ss')
+          const dropdown = <Dropdown>
+                              <Dropdown.Toggle variant="secondary" id="dropdown-basic"> </Dropdown.Toggle>
+                              <Dropdown.Menu>
+                                  {worker.status === "0" ? <>
+                                    <Dropdown.Item href="#"><DeletePopup handleDelete={handleDelete} itemId={worker.id} text={"Fire This Worker"}/></Dropdown.Item> 
+                                    <Dropdown.Item href={`workers/${worker.id}`}>Edit Info/Position</Dropdown.Item>
+                                    </>
+                                    : ''}
+                              </Dropdown.Menu>
+                            </Dropdown> 
+          const rowsContent = [rowNum , worker.id , worker.Name  , worker.Username , worker.Email,
+                                worker.Position  , createdFormat ,updatedFormat , workerStatus , dropdown ]
       return (
-        <tr key={worker.id}>
-          <th scope="row">{( ((currentPage -1) * itemsPerPage) + (workersData.indexOf(worker) + 1) )}</th>
-          <td> {worker.id}</td>
-          <td> {worker.Name}</td>
-          <td>{worker.Username}</td>
-          <td>{worker.Email}</td>
-          <td>{worker.Position}</td>
-          <td>{moment(worker.created).format('YYYY-MM-DD HH:mm:ss')}</td>
-          <td>{moment(worker.updated).format('YYYY-MM-DD HH:mm:ss')}</td>
-          <td>{worker.status === "1" ? <b className='text-danger'>Inactive</b> : <b className='text-success'>Active</b>}</td>
-          <td> <Dropdown>
-              <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-              {worker.status === "0" ? <>
-                                      <Dropdown.Item href="#"><DeletePopup handleDelete={handleDelete} itemId={worker.id} text={"Fire This Worker"}/></Dropdown.Item> 
-                                      <Dropdown.Item href={`workers/${worker.id}`}>Edit Info/Position</Dropdown.Item>
-                                      </>
-                                      : ''}
-              </Dropdown.Menu>
-            </Dropdown> 
-            </td>
-          
-        </tr>
+        rowsContent
     )})
     
     

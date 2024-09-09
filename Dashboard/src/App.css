@@ -41,3 +41,27 @@
     transform: rotate(360deg);
   }
 }
+
+.homePageContent {
+  display: flex;
+  .ana {
+    width: 50%;
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  button {
+    margin: 10px 1px;
+    width: 115px;
+    color: #b96029;
+    background-color: #9999;
+    border-color: #b96029;
+  }
+  button:hover {
+    background-color: #b96029;
+    color: black;
+  }
+}

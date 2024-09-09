@@ -1,0 +1,17 @@
+{
+  "name": "kingos-restaurant",
+  "version": "1.0.0",
+  "description": "restaurant site using node.js,mySQL and react ",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run start-server\" \"npm run start-dashboard\" \"npm run start-restaurant\"",
+    "start-server": "cd Server && npm run dev",
+    "start-dashboard": "cd Dashboard && npm run start",
+    "start-restaurant": "cd Restaurant && npm run start"
+  },
+  "author": "osama alkhazali",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}

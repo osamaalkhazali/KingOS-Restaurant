@@ -17,28 +17,21 @@ function Tables() {
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [filter, setFilter] = useState('');
     const [filterName, setFilterName] = useState('foodType');
-    const [filterKeys, setFilterKeys] = useState([]);
+    // const [filterKeys, setFilterKeys] = useState([]);
 
     
     const headers  = ['#' , 'id' , 'Capacity' , 'QR', 'Created' , 'Updated' , 'Action']
     
     const menuContent = menuData.map(item => {
-      return (
-        <tr key={item.id}>
-          <th scope="row">{( ((currentPage -1) * itemsPerPage) + (menuData.indexOf(item) ) )}</th>
-          <td> {item.id}</td>
-          <td> {item.Capacity}</td>
-          <td> 
-            <img alt='Qr Code' 
-            src={item.QRcode || 'https://cdn-icons-png.flaticon.com/512/5247/5247756.png'} 
-            style={{ width: '150px' }} />
-          </td>
-          <td>{moment(item.Created_At).format('YYYY-MM-DD HH:mm:ss')}</td>
-          <td>{moment(item.Updated_At).format('YYYY-MM-DD HH:mm:ss')}</td>
-          <td><Link  to={`/tables/${item.id}`}>
-          Edit
-          </Link></td>
-        </tr>
+          const qrCode = <img alt='Qr Code' 
+                          src={item.QRcode || 'https://cdn-icons-png.flaticon.com/512/5247/5247756.png'} 
+                          style={{ width: '150px' }} />
+          const editLink = <Link  to={`/tables/${item.id}`}> Edit </Link>
+          const createdFormat = moment(item.Created_At).format('YYYY-MM-DD HH:mm:ss')
+          const updatedFormat = moment(item.Updated_At).format('YYYY-MM-DD HH:mm:ss')
+          const rowsContent = [item.id , item.id , item.Capacity , qrCode , createdFormat ,updatedFormat , editLink ]
+          return (
+            rowsContent
     )})
     
     
@@ -93,7 +86,7 @@ function Tables() {
     
     <Search
     searchKeys={searchKeys}
-    filterKeys={filterKeys}
+    filterKeys={[]}
     handleSearchKey={setSearchKey}
     handleCurrentPage={setCurrentPage}
     handleFilter={setFilter}

@@ -150,7 +150,8 @@ nav .menu-items {
     transition: var(--tran-03);
 }
 
-.menu-items li a:hover {
+.menu-items li a:hover ,
+.menu-items li .active {
     background-color: var(--primary-color);
     color: #ffffff;
 }
@@ -181,21 +182,26 @@ nav.close .menu-items li a {
     justify-content: left;
 }
 
-.nav-links , .logout-mode{
+.nav-links {
     padding: 0;
 }
 
 .nav-links li a:hover i,
-.nav-links li a:hover .link-name {
+.nav-links li a:hover .link-name 
+, .nav-links li .active .link-name
+, .nav-links li .active i {
     color: #ffffff;
 }
 
 body.dark .nav-links li a:hover i,
-body.dark .nav-links li a:hover .link-name {
+body.dark .nav-links li a:hover .link-name 
+, body.dark .nav-links li .active .link-name 
+, body.dark .nav-links li .active i 
+ {
     color: #ecf0f1;
 }
 
-.menu-items .logout-mode {
+.menu-items  {
     padding-top: 20px;
     border-top: 2px solid var(--border-color);
 }
@@ -570,3 +576,4 @@ nav.close ~ .dashboard .top {
         width: 100%;
     }
 }
+
